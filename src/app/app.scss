@@ -1,0 +1,11 @@
+@use 'tailwindcss';
+.custom-success-toast {
+  .p-toast-message-text {
+    color: #1e40af !important;
+  }
+
+  .p-toast-summary {
+    color: #16a34a !important;
+    font-weight: 600;
+  }
+}
