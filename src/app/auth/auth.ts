@@ -17,16 +17,5 @@ export class Auth {
 
   constructor(private router: Router) {}
 
-  onStepChange(step: number) {
-    this.activeStep = step;
-  }
 
-  navigateToRegister() {
-    let name = this.router.navigate(['/auth/register']);
-    console.log(name)
-  }
-
-  navigateToLogin() {
-    this.router.navigate(['/auth/login']);
-  }
 }

@@ -54,7 +54,6 @@ export class Login implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-
     const formData = this.form.value;
 
     this.api.store('account/login', this.form.value)

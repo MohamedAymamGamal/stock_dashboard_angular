@@ -30,6 +30,10 @@ export const routes: Routes = [
     path: 'welcome',
     loadComponent: () => import('./welcome/welcome').then((m) => m.Welcome),
   },
+  {
+    path: 'dashboard',
+    loadComponent: () => import('./dashboard/dashboard').then((m) => m.Dashboard),
+  },
 
 
 
