@@ -82,6 +82,29 @@
         </small>
       </div>
 
+      <div class="space-y-2">
+        <label  for="confirmPassword" class="block text-sm font-medium text-gray-700">
+          Password
+        </label>
+        <input
+          id="confirmPassword"
+          pInputText
+          formControlName="confirmPassword"
+          type="confirmPassword"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+          placeholder="Create a strong password"
+          name="confirmPassword"
+          required
+          [ngClass]="{
+          'border-red-500': confirmPassword?.invalid && (confirmPassword?.touched || confirmPassword?.dirty),
+          'border-gray-300': confirmPassword?.valid || !confirmPassword?.touched
+          }"
+        >
+        <small *ngIf="confirmPassword?.invalid && (confirmPassword?.touched || confirmPassword?.dirty)" class="text-red-500">
+          Email is required.
+        </small>
+      </div>
+
       <!-- Register Button -->
       <button
         type="submit"

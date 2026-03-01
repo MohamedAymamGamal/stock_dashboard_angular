@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard, WelcomeGuard, DashboardGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'auth', pathMatch: 'full'},
@@ -33,6 +34,12 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () => import('./dashboard/dashboard').then((m) => m.Dashboard),
+    children: [
+      {
+        path: 'stocks',
+        loadComponent: () => import('./dashboard/stocks/stocks').then((m) => m.Stocks),
+      }
+    ]
   },
 
 

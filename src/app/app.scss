@@ -1,4 +1,6 @@
 @use 'tailwindcss';
+@use '../styles/variables' as *;
+
 .custom-success-toast {
   .p-toast-message-text {
     color: #1e40af !important;

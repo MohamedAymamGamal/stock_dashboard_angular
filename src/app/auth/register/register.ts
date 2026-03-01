@@ -6,6 +6,8 @@ import {Router, RouterLink} from '@angular/router';
 import {Api} from '../../services/api';
 import {ButtonDirective} from 'primeng/button';
 import {Toast} from '../../services/toast';
+import {confirmPasswordValidator} from '../../utilities/ConfirmPassword';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -27,7 +29,8 @@ export class Register  implements OnInit {
   constructor(private router: Router,
               private api: Api,
               private fb: FormBuilder,
-              private toast:Toast) {}
+              private toast:Toast,
+              private authService: AuthService) {}
 
   ngOnInit(): void {
     this.FormRegister();
@@ -37,6 +40,7 @@ export class Register  implements OnInit {
       Username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(12)]],
+      confirmPassword: ['', [Validators.required, confirmPasswordValidator]],
     });
   }
   get username() {
@@ -50,6 +54,10 @@ export class Register  implements OnInit {
   get password() {
     return this.form.get('password');
   }
+
+  get confirmPassword() {
+    return this.form.get('confirmPassword');
+  }
   onRegister() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -60,9 +68,21 @@ export class Register  implements OnInit {
 
     this.api.store('account/register', this.form.value)
       .subscribe({
-        next: () => {
+        next: (response: any) => {
           this.toast.success('Account created successfully');
-          this.router.navigate(['/auth/login']);
+          
+          // Store auth token if returned from API
+          if (response?.token) {
+            this.authService.setAuthToken(response.token);
+          }
+          
+          // Store user data if returned
+          if (response?.user) {
+            this.authService.setUserData(response.user);
+          }
+          
+          // Handle registration success - redirect to welcome page
+          this.authService.handleRegistrationSuccess();
         },
         error: (err) => {
           if (err.error?.length) {

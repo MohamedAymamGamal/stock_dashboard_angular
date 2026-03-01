@@ -1,0 +1,47 @@
+<header class="navbar-header">
+  <div class="navbar-container">
+    <!-- Logo/Brand -->
+    <div class="navbar-brand  brand-title ">
+      <i class="pi pi-chart-line text-2xl text-primary"></i>
+      <span class="brand-title text-black   ">Stock Dashboard</span>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="navbar-nav desktop-nav nav-items">
+      <p-menubar [model]="items" class="custom-menubar "></p-menubar>
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <div class="mobile-menu-toggle">
+      <p-button
+        icon="pi pi-bars"
+        (click)="toggleMobileMenu()"
+        class="mobile-menu-button"
+        aria-label="Toggle mobile menu">
+      </p-button>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="navbar-nav mobile-nav" [class.mobile-nav-open]="mobileMenuOpen">
+      <div class="mobile-menu-content">
+        <div class="mobile-menu-header">
+          <span class="brand-title">Menu</span>
+          <p-button
+            icon="pi pi-times"
+            (click)="toggleMobileMenu()"
+            class="mobile-menu-close"
+            aria-label="Close mobile menu">
+          </p-button>
+        </div>
+        <p-tieredMenu [model]="items" class="mobile-tiered-menu"></p-tieredMenu>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div
+    class="mobile-menu-overlay"
+    [class.mobile-menu-overlay-open]="mobileMenuOpen"
+    (click)="toggleMobileMenu()">
+  </div>
+</header>

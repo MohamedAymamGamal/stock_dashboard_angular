@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {Button, ButtonDirective} from "primeng/button";
 import {Router, RouterOutlet} from "@angular/router";
 import {Step, StepList, StepPanel, StepPanels, Stepper} from "primeng/stepper";
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-welcome',
@@ -120,13 +121,14 @@ export class Welcome {
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   onStepChange(step: number) {
     this.activeStep = step;
   }
 
   navigateToDashboard() {
+    this.authService.markWelcomeAsSeen();
     this.router.navigate(['/dashboard']);
   }
 
