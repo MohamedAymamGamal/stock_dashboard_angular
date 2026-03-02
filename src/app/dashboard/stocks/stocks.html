@@ -1,0 +1,11 @@
+<div *ngFor="let stock of stocks">
+
+  {{stock.symbol}}
+
+</div>
+
+<p-paginator
+  (onPageChange)="onPageChange($event.page)"
+  [rows]="params.pageSize"
+  [totalRecords]="totalRecords">
+</p-paginator>

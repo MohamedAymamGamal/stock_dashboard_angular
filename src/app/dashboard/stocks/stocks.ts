@@ -2,65 +2,54 @@ import {Component, OnInit} from '@angular/core';
 import {Api} from '../../services/api';
 import {Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
+import {Stock} from '../../Types/Stock';
+import {Paginator} from 'primeng/paginator';
+import {params} from '../../Types/Params';
 
-interface Stock {
-  id: number;
-  symbol: string;
-  name: string;
-  price: number;
-  change: number;
-  changePercent: number;
-  volume: number;
-  marketCap: number;
-}
+
 
 @Component({
   selector: 'app-stocks',
-  imports: [CommonModule],
+  imports: [CommonModule, Paginator],
   templateUrl: './stocks.html',
   styleUrl: './stocks.scss',
   standalone: true
 })
 export class Stocks implements OnInit {
   stocks: Stock[] = [];
-  loading: boolean = false;
+  params:params = {pageNumber:1,pageSize:10};
   error: string = '';
 
   constructor(protected api: Api,private  router: Router) {}
 
 
-      ngOnInit(): void {
+  ngOnInit(): void {
       this.getAllStocks();
   }
 
-  getAllStocks(): void {
-    this.loading = true;
-    this.error = '';
-    
-    this.api.index<Stock[]>('stocks').subscribe({
-      next: (data) => {
-        this.stocks = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        this.error = 'Failed to load stocks data';
-        this.loading = false;
-        console.error('Error loading stocks:', err);
-      }
-    });
+  getAllStocks() {
+    this.api.index<Stock[]>('stock', this.params)
+      .subscribe({
+        next: (res) => {
+          this.stocks = res;
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
+  }
+
+
+  onPageChange(pageIndex: number) {
+    this.params.pageNumber = pageIndex + 1;
+    this.getAllStocks();
   }
 
   viewStockDetails(stockId: number): void {
     this.router.navigate([`/dashboard/stocks/${stockId}`]);
   }
 
-  getChangeClass(change: number): string {
-    return change >= 0 ? 'text-green-600' : 'text-red-600';
-  }
 
-  getChangeSymbol(change: number): string {
-    return change >= 0 ? '+' : '';
-  }
 
 
 
