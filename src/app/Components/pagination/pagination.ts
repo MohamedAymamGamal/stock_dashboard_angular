@@ -8,11 +8,13 @@ import {Paginator} from 'primeng/paginator';
   ],
   templateUrl: './pagination.html',
   styleUrl: './pagination.scss',
+  standalone: true
 })
 export class Pagination  {
 
   @Input() PageNumber:number = 1;
-  @Input() PageSize:number = 1;
+  @Input() PageSize:number = 10;
+  @Input() TotalRecords:number = 0;
 
   @Output() PageChange = new EventEmitter<number>();
 

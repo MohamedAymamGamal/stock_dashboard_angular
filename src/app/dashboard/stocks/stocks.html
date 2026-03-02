@@ -4,8 +4,10 @@
 
 </div>
 
-<p-paginator
-  (onPageChange)="onPageChange($event.page)"
-  [rows]="params.pageSize"
-  [totalRecords]="totalRecords">
-</p-paginator>
+<app-pagination
+
+  [PageNumber]="pagination.pageNumber"
+  [PageSize]="pagination.pageSize"
+  [TotalRecords]="totalRecords"
+  (PageChange)="onPageChange($event)">
+</app-pagination>
