@@ -38,6 +38,10 @@ export const routes: Routes = [
       {
         path: 'stocks',
         loadComponent: () => import('./dashboard/stocks/stocks').then((m) => m.Stocks),
+      },
+      {
+        path:'stocks/:id',
+        loadComponent: () =>import('./dashboard/stocks/stock-details/stock-details').then((m) => m.StockDetails),
       }
     ]
   },
