@@ -34,7 +34,7 @@ export class Api {
     return this.http.put<R>(`${this.apiUrl}/${path}/${id}`, payload);
   }
 
-  destroy<T, R>(path: string, payload: T): Observable<R> {
-    return this.http.delete<R>(`${this.apiUrl}/${path}/bulk`, { body: payload });
+  destroy<T, R>(path: string,id: string | number): Observable<R> {
+    return this.http.delete<R>(`${this.apiUrl}/${path}/${id}`,);
   }
 }

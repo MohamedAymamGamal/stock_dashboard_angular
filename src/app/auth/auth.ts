@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
   styleUrl: './auth.scss',
 })
 export class Auth {
-  activeStep: number = 1;
 
   constructor(private router: Router) {}
 

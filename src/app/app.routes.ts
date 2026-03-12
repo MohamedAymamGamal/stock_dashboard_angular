@@ -37,7 +37,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'stocks',
-        loadComponent: () => import('./dashboard/stocks/stocks').then((m) => m.Stocks),
+        loadComponent: () => import('./dashboard/stocks/stocks').then((m) => m.StocksComponent),
       },
       {
         path:'stocks/:id',

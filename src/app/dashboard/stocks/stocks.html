@@ -1,6 +1,6 @@
 
 <div class="card">
-  <p-table [value]="stocks" [tableStyle]="{ 'min-width': '50rem' }" >
+  <p-table [value]="stocks" [rowTrackBy]="trackByStockId"  [tableStyle]="{ 'min-width': '50rem' }" >
     <ng-template pTemplate="header">
       <tr>
         <th>Symbol</th>
@@ -15,16 +15,22 @@
         <td>{{ stock.companyName }}</td>
         <td>{{ stock.price }}</td>
         <td>
+          <button pButton label="Delete" (click)="delete(stock.id)"></button>
+
           <button pButton label="View" (click)="viewStockDetails(stock.id)"></button>
         </td>
       </tr>
     </ng-template>
   </p-table>
 </div>
-
+<!--<ng-container class="flex-col items-center" *ngFor="let stock of stocks; trackBy: trackByStockId">-->
+<!--  {{stock.symbol}}-->
+<!--</ng-container>-->
 <app-pagination
-  [PageNumber]="pagination.pageNumber"
-  [PageSize]="pagination.pageSize"
+  [PageNumber]="params.pageNumber"
+  [PageSize]="params.pageSize"
   [TotalRecords]="totalRecords"
-  (PageChange)="onPageChange($event)">
+  (PageChange)="onPageChange($event)"
+  class="fixed bottom-0 w-full"
+>
 </app-pagination>

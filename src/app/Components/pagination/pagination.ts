@@ -20,7 +20,7 @@ export class Pagination  {
 
 
   onPageChange(ev:any){
-    this.PageChange.emit(ev);
+    this.PageChange.emit(ev+1);
   }
 
 }

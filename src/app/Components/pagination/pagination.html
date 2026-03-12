@@ -2,6 +2,6 @@
     (onPageChange)="onPageChange($event.page)"
     [rows]="PageSize"
     [totalRecords]="TotalRecords"
-
+    [first]="(PageNumber - 1) * PageSize"
   >
   </p-paginator>
