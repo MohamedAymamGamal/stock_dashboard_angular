@@ -1,4 +1,12 @@
-import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import {Api} from '../../services/api';
 import {Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
@@ -7,6 +15,7 @@ import {params} from '../../Types/Params';
 import {Pagination} from '../../Components/pagination/pagination';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
+import {ConfirmDialogService} from '../../services/confirm-dialog.service';
 
 
 
@@ -15,11 +24,13 @@ import {ButtonModule} from 'primeng/button';
   imports: [CommonModule, Pagination, TableModule, ButtonModule],
   templateUrl: './stocks.html',
   styleUrl: './stocks.scss',
-  standalone:true
+  standalone:true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StocksComponent implements OnInit {
+export class StocksComponent implements OnInit,OnDestroy {
   stocks: Stock[] = [];
   totalRecords: number = 1;
+
 
   params: params = {
     pageNumber: 1,
@@ -31,7 +42,14 @@ export class StocksComponent implements OnInit {
   };
 
 
-  constructor(protected api: Api, private router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(
+    protected api: Api,
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private confirm: ConfirmDialogService
+    ) {}
+
+
 
   ngOnInit(): void {
     this.getAllStocks();
@@ -43,7 +61,6 @@ export class StocksComponent implements OnInit {
         setTimeout(() => {
           this.stocks = value.data || value;
           this.totalRecords = value.totalCount;
-
           this.cdr.detectChanges();
         });
       },
@@ -64,12 +81,39 @@ export class StocksComponent implements OnInit {
     return stock.id;
   }
 
-  delete(stockId:number){
-    this.api.destroy('stock', stockId).subscribe(() => {
-      this.getAllStocks();
+  onSearch(event:any){
+    if(this.params.companyName != event){
+      this.params.companyName = '';
+      this.getAllStocks()
+    }
+  }
+  // @ViewChild('search') searchInput: ElementRef
+  // delete(stockId: number) {
+  //
+  //       this.api.destroy('stock', stockId).subscribe(() => {
+  //         this.getAllStocks();
+  //       });
+  //
+  // }
+  delete(stockId: number) {
+    this.confirm.open({
+      title:       'Delete',
+      message:     'Are you sure?',
+      type:        'danger',   // ← "type" not "types"
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      accept: () => {
+        this.api.destroy('stock', stockId).subscribe(() => {
+          this.getAllStocks();
+        });
+      }
     });
   }
+
   viewStockDetails(stockId: number): void {
     this.router.navigate([`/dashboard/stocks/${stockId}`]);
+  }
+  ngOnDestroy(): void {
+    this.getAllStocks()
   }
 }

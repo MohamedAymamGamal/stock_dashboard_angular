@@ -5,18 +5,22 @@
       <tr>
         <th>Symbol</th>
         <th>Company Name</th>
-        <th>Price</th>
-        <th>Actions</th>
+        <th>purchase</th>
+        <th>lastDiv</th>
+        <th>industry<th>
+        <th>marketCap</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-stock>
       <tr>
         <td>{{ stock.symbol }}</td>
         <td>{{ stock.companyName }}</td>
-        <td>{{ stock.price }}</td>
+        <td>{{ stock.purchase }}</td>
+        <td>{{ stock.lastDiv }}</td>
+        <td>{{ stock.indeustry }}</td>
+        <td>{{stock.marketCap}}</td>
         <td>
           <button pButton label="Delete" (click)="delete(stock.id)"></button>
-
           <button pButton label="View" (click)="viewStockDetails(stock.id)"></button>
         </td>
       </tr>

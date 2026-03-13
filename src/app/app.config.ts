@@ -7,13 +7,14 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import Aura from '@primeuix/themes/aura';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {authInterceptor} from './interceptor/auth-interceptor';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideRouter(routes),
+    ConfirmationService,
     provideAnimationsAsync(),
     MessageService,
     providePrimeNG({

@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {Toast, ToastModule} from 'primeng/toast';
+import {ConfirmDialog} from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,11 @@ import {Toast, ToastModule} from 'primeng/toast';
     RouterOutlet,
     Toast,
     ToastModule,
+    ConfirmDialog
   ],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
+
 })
 export class App {
   protected readonly title = signal('stock');
