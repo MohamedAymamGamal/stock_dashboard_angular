@@ -1,0 +1,12 @@
+
+<p-button
+  [label]="label"
+  [type]="type"
+  [severity]="severity === 'primary' ? undefined : severity"
+  [icon] = "icon"
+  [loading] = "loading"
+  [disabled] = "disabled"
+  (click) = "onClick.emit()"
+
+>
+</p-button>

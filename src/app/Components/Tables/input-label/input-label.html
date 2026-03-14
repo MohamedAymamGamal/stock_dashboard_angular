@@ -1,0 +1,68 @@
+<div class="flex flex-col gap-1" [class.w-full]="fullWidth">
+
+  <label *ngIf="label" [for]="inputId" class="text-sm font-medium">
+    {{ label }}<span *ngIf="required" class="text-red-500"> *</span>
+  </label>
+
+  <!-- TEXT | EMAIL -->
+  <input
+    *ngIf="type === 'text' || type === 'email'"
+    #inputRef
+    pInputText
+    [id]="inputId"
+    [type]="type"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [required]="required"
+    [(ngModel)]="value"
+
+    (ngModelChange)="onChange($event)"
+    (blur)="onTouched()"
+  />
+
+  <!-- PASSWORD -->
+  <p-password
+    *ngIf="type === 'password'"
+    [inputId]="inputId"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [required]="required"
+    [toggleMask]="true"
+    [feedback]="false"
+    [inputStyleClass]="fullWidth ? 'w-full' : ''"
+    [styleClass]="fullWidth ? 'w-full' : ''"
+    [(ngModel)]="value"
+    (ngModelChange)="onChange($event)"
+    (onBlur)="onTouched()"
+  ></p-password>
+
+  <!-- NUMBER -->
+  <p-inputnumber
+    *ngIf="type === 'number'"
+    [inputId]="inputId"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [required]="required"
+    [(ngModel)]="value"
+    (ngModelChange)="onChange($event)"
+    (onBlur)="onTouched()"
+  ></p-inputnumber>
+
+  <!-- TEXTAREA -->
+  <textarea
+    *ngIf="type === 'textarea'"
+    #inputRef
+    pInputTextarea
+    [id]="inputId"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [required]="required"
+    [rows]="rows"
+    [(ngModel)]="value"
+    (ngModelChange)="onChange($event)"
+    (blur)="onTouched()"
+  ></textarea>
+
+  <small *ngIf="invalid && errorMessage" class="p-error">{{ errorMessage }}</small>
+</div>
+`,

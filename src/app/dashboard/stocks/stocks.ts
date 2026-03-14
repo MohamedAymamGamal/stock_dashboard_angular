@@ -17,12 +17,14 @@ import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
 import {ConfirmDialogService} from '../../services/confirm-dialog.service';
 import {Subscription} from 'rxjs';
+import {Button} from '../../Components/button/button';
+import {InputLabel} from '../../Components/Tables/input-label/input-label';
 
 
 
 @Component({
   selector: 'app-stocks',
-  imports: [CommonModule, Pagination, TableModule, ButtonModule],
+  imports: [CommonModule, Pagination, TableModule, ButtonModule,InputLabel,Button],
   templateUrl: './stocks.html',
   styleUrl: './stocks.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -56,7 +58,7 @@ export class StocksComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
 
     this.route.queryParams.subscribe(p => {
-      this.params.pageNumber = +p['page'] ;
+      this.params.pageNumber = +p['page'] || 1 ;
       this.getAllStocks();
     })
   }
@@ -96,13 +98,13 @@ export class StocksComponent implements OnInit,OnDestroy {
     return stock.id;
   }
 
-  onSearch(event:any){
+  OnSearch(event:any){
     if(this.params.companyName != event){
       this.params.companyName = '';
       this.getAllStocks()
     }
   }
-  // @ViewChild('search') searchInput: ElementRef
+  @ViewChild('search') searchInput!: ElementRef
   // delete(stockId: number) {
   //
   //       this.api.destroy('stock', stockId).subscribe(() => {

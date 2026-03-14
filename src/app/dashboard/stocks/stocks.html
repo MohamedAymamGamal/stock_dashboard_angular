@@ -1,5 +1,10 @@
 
 <div class="card">
+  <div class="flex items-center justify-center gap-2">
+
+    <app-input-label class="" [rows]="3"  #search placeholder="search"  type="text" label="Name" [autoFocus]="true" />
+    <app-button label="Search" type = "submit" severity="danger" icon="pi pi-search"></app-button>
+  </div>
   <p-table [value]="stocks" [rowTrackBy]="trackByStockId"  [tableStyle]="{ 'min-width': '50rem' }" >
     <ng-template pTemplate="header">
       <tr>

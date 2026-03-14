@@ -49,7 +49,7 @@ export class AuthService {
   // Check authentication status (you can expand this based on your auth implementation)
   isAuthenticated(): boolean {
     // This is a placeholder - implement based on your actual auth logic
-    // You might check for a token, session, etc.
+    //  check for a token, session.
     const token = localStorage.getItem('auth_token');
     return !!token;
   }
