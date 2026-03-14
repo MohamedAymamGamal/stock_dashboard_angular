@@ -7,6 +7,8 @@ import { Api } from '../../services/api';
 import { ButtonDirective } from 'primeng/button';
 import { Toast } from '../../services/toast';
 import { AuthService } from '../../services/auth.service';
+import { login } from '../../Types/Login';
+import {LoginResponse} from '../../Types/LoginResponse';
 
 @Component({
   selector: 'app-login',
@@ -58,23 +60,23 @@ export class Login implements OnInit {
     }
     const formData = this.form.value;
 
-    this.api.store('account/login', this.form.value)
+    this.api.store<login, LoginResponse>('account/login', this.form.value)
       .subscribe({
-        next: (response: any) => {
+        next: (response:LoginResponse) => {
           this.toast.success('Login successful');
-          
+
           // Store auth token if returned from API
           if (response?.token) {
             this.authService.setAuthToken(response.token);
           }
-          
           // Store user data if returned
           if (response?.user) {
             this.authService.setUserData(response.user);
           }
-          
+
           // Handle login success - redirect based on new user status
           this.authService.handleLoginSuccess();
+
           console.log('Login response:', response);
         },
         error: (err) => {

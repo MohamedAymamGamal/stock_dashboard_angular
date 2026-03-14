@@ -8,7 +8,7 @@ import {
   ElementRef
 } from '@angular/core';
 import {Api} from '../../services/api';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {Stock} from '../../Types/Stock';
 import {params} from '../../Types/Params';
@@ -16,6 +16,7 @@ import {Pagination} from '../../Components/pagination/pagination';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
 import {ConfirmDialogService} from '../../services/confirm-dialog.service';
+import {Subscription} from 'rxjs';
 
 
 
@@ -24,13 +25,11 @@ import {ConfirmDialogService} from '../../services/confirm-dialog.service';
   imports: [CommonModule, Pagination, TableModule, ButtonModule],
   templateUrl: './stocks.html',
   styleUrl: './stocks.scss',
-  standalone:true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StocksComponent implements OnInit,OnDestroy {
   stocks: Stock[] = [];
-  totalRecords: number = 1;
-
+  subscription!: Subscription;
 
   params: params = {
     pageNumber: 1,
@@ -38,13 +37,16 @@ export class StocksComponent implements OnInit,OnDestroy {
     symbol: '',
     companyName: '',
     sortBy: '',
-    isDecsending: false
+    isDecsending: false,
+    totalRecords:  1
+
   };
 
 
   constructor(
     protected api: Api,
     private router: Router,
+    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private confirm: ConfirmDialogService
     ) {}
@@ -52,15 +54,27 @@ export class StocksComponent implements OnInit,OnDestroy {
 
 
   ngOnInit(): void {
-    this.getAllStocks();
+
+    this.route.queryParams.subscribe(p => {
+      this.params.pageNumber = +p['page'] ;
+      this.getAllStocks();
+    })
   }
 
   getAllStocks() {
-    this.api.index<Stock[]>('stock', this.params).subscribe({
+    this.router.navigate([], {
+      queryParams: { page: this.params.pageNumber },
+      queryParamsHandling: 'merge'
+    });
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.subscription = this.api.index<Stock[]>('stock', this.params).subscribe({
       next: (value: any) => {
         setTimeout(() => {
-          this.stocks = value.data || value;
-          this.totalRecords = value.totalCount;
+          this.stocks = value.data ;
+          this.params.totalRecords = value.totalCount;
           this.cdr.detectChanges();
         });
       },
@@ -68,6 +82,7 @@ export class StocksComponent implements OnInit,OnDestroy {
         console.error(err);
       }
     });
+
   }
 
   onPageChange(event: any) {
@@ -98,8 +113,8 @@ export class StocksComponent implements OnInit,OnDestroy {
   delete(stockId: number) {
     this.confirm.open({
       title:       'Delete',
-      message:     'Are you sure?',
-      type:        'danger',   // ← "type" not "types"
+      message:     'Are you sure :)',
+      type:        'danger',
       acceptLabel: 'Delete',
       rejectLabel: 'Cancel',
       accept: () => {
@@ -111,9 +126,11 @@ export class StocksComponent implements OnInit,OnDestroy {
   }
 
   viewStockDetails(stockId: number): void {
-    this.router.navigate([`/dashboard/stocks/${stockId}`]);
-  }
+    this.router.navigate(['/dashboard', 'stocks', stockId]);  }
+
   ngOnDestroy(): void {
-    this.getAllStocks()
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

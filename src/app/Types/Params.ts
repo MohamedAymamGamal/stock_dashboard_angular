@@ -6,5 +6,6 @@ export  interface  params{
     companyName : string;
     sortBy : string;
     isDecsending : boolean;
+    totalRecords: number ;
 
 }

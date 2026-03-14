@@ -6,6 +6,7 @@ import { Api } from './api';
   providedIn: 'root'
 })
 export class AuthService {
+  //auth values
   private readonly NEW_USER_KEY = 'is_new_user';
   private readonly HAS_SEEN_WELCOME_KEY = 'has_seen_welcome';
 

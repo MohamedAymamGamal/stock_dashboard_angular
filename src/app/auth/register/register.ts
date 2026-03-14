@@ -66,21 +66,21 @@ export class Register  implements OnInit {
 
     const formData = this.form.value;
 
-    this.api.store('account/register', this.form.value)
+    this.api.store('account/register', formData)
       .subscribe({
         next: (response: any) => {
           this.toast.success('Account created successfully');
-          
+
           // Store auth token if returned from API
           if (response?.token) {
             this.authService.setAuthToken(response.token);
           }
-          
+
           // Store user data if returned
           if (response?.user) {
             this.authService.setUserData(response.user);
           }
-          
+
           // Handle registration success - redirect to welcome page
           this.authService.handleRegistrationSuccess();
         },

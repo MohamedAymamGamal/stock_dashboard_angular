@@ -33,7 +33,7 @@
 <app-pagination
   [PageNumber]="params.pageNumber"
   [PageSize]="params.pageSize"
-  [TotalRecords]="totalRecords"
+  [TotalRecords]="params.totalRecords"
   (PageChange)="onPageChange($event)"
   class="fixed bottom-0 w-full"
 >

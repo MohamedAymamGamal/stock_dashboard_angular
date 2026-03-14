@@ -7,7 +7,7 @@ import {params} from '../../Types/Params';
 })
 export class StockService {
 
-  params: params = {pageNumber: 1, pageSize: 10, symbol: '', companyName: '', sortBy: '', isDecsending: false};
+  params: params = {pageNumber: 1, pageSize: 10, symbol: '', companyName: '', sortBy: '', isDecsending: false, totalRecords: 1};
 
   constructor(private api:Api) {}
 

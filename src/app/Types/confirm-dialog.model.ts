@@ -9,8 +9,8 @@ export interface ConfirmOptions {
   type?:  DialogType;
   acceptLabel? : string;
   rejectLabel:string;
-  accept?:      () => void;
-  reject?:      () => void;
+  accept?:() => void;
+  reject?:() => void;
 }
 
 
