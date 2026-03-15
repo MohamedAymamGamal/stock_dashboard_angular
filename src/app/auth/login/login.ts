@@ -9,6 +9,7 @@ import { Toast } from '../../services/toast';
 import { AuthService } from '../../services/auth.service';
 import { login } from '../../Types/Login';
 import {LoginResponse} from '../../Types/LoginResponse';
+import {User} from '../../services/user';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,8 @@ export class Login implements OnInit {
     private api: Api,
     private fb: FormBuilder,
     private toast: Toast,
-    private authService: AuthService
+    private authService: AuthService,
+    private user: User
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +66,7 @@ export class Login implements OnInit {
       .subscribe({
         next: (response:LoginResponse) => {
           this.toast.success('Login successful');
-
+          this.user.UserName.next(response.user?.name);
           // Store auth token if returned from API
           if (response?.token) {
             this.authService.setAuthToken(response.token);

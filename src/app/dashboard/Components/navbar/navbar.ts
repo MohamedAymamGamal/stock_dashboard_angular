@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import {RouterLink} from '@angular/router';
+import {User} from '../../../services/user';
 
 @Component({
   selector: 'app-navbar',
@@ -13,9 +14,9 @@ import {RouterLink} from '@angular/router';
   styleUrl: './navbar.scss',
   standalone: true,
 })
-export class Navbar {
-  mobileMenuOpen = false;
+export class Navbar implements OnInit {
 
+  mobileMenuOpen = false;
   items: MenuItem[] = [
     {
       label: 'Dashboard',
@@ -86,9 +87,21 @@ export class Navbar {
       ]
     }
   ];
+  username:string = '';
+  constructor(private user:User) {}
+  ngOnInit(): void {
+      this.getUserName()
+  }
+
 
   toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  getUserName(){
+    this.user.UserName.subscribe((next)=>{
+      this.username = next;
+    })
   }
 
 }
