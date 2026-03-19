@@ -1,5 +1,11 @@
 
 <app-navbar></app-navbar>
+<div>
+  <span *ngIf="auth.getUsername() as username">
+  {{ username }}
+</span>
+</div>
+
 
 <router-outlet>
 

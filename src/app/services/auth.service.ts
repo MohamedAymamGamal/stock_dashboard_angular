@@ -1,86 +1,79 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Api } from './api';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  //auth values
-  private readonly NEW_USER_KEY = 'is_new_user';
-  private readonly HAS_SEEN_WELCOME_KEY = 'has_seen_welcome';
 
-  constructor(
-    private router: Router,
-    private api: Api
-  ) {}
+  private readonly KEYS = {
+    TOKEN:            'token',
+    USER_DATA:        'user_data',
+    HAS_SEEN_WELCOME: 'has_seen_welcome',
+  };
 
-  // Check if user is new (hasn't seen welcome page)
-  isNewUser(): boolean {
-    const hasSeenWelcome = localStorage.getItem(this.HAS_SEEN_WELCOME_KEY);
-    return hasSeenWelcome !== 'true';
+  constructor(private router: Router) {}
+
+  // --- Token ---
+  setAuthToken(token: string): void {
+    localStorage.setItem(this.KEYS.TOKEN, token);
   }
 
-  // Mark welcome page as seen
-  markWelcomeAsSeen(): void {
-    localStorage.setItem(this.HAS_SEEN_WELCOME_KEY, 'true');
+  getAuthToken(): string | null {
+    return localStorage.getItem(this.KEYS.TOKEN);
   }
 
-  // Reset new user status (for testing or logout)
-  resetNewUserStatus(): void {
-    localStorage.removeItem(this.HAS_SEEN_WELCOME_KEY);
+
+  isAuthenticated(): boolean {
+    return !!this.getAuthToken();
   }
 
-  // Handle user login - redirect based on new user status
-  handleLoginSuccess(): void {
-    if (this.isNewUser()) {
-      this.router.navigate(['/welcome']);
-    } else {
-      this.router.navigate(['/dashboard']);
+  // --- User Data ---
+  setUserData(userData: any): void {
+    localStorage.setItem(this.KEYS.USER_DATA, JSON.stringify(userData));
+  }
+
+
+  getUserData(): any | null {
+    try {
+      const data = localStorage.getItem(this.KEYS.USER_DATA);
+      return data ? JSON.parse(data) : null;
+    } catch {
+      return null;
     }
   }
 
-  // Handle user registration - mark as new user and redirect to welcome
+
+  getUsername(): string | null {
+    return this.getUserData()?.username ?? null;
+  }
+
+  // --- Welcome Flow ---
+  isNewUser(): boolean {
+    return localStorage.getItem(this.KEYS.HAS_SEEN_WELCOME) !== 'true';
+  }
+
+  markWelcomeAsSeen(): void {
+    localStorage.setItem(this.KEYS.HAS_SEEN_WELCOME, 'true');
+  }
+
+  resetNewUserStatus(): void {
+    localStorage.removeItem(this.KEYS.HAS_SEEN_WELCOME);
+  }
+
+  // --- Navigation ---
+  handleLoginSuccess(): void {
+    this.isNewUser()
+      ? this.router.navigate(['/welcome'])
+      : this.router.navigate(['/dashboard']);
+  }
+
   handleRegistrationSuccess(): void {
-    this.resetNewUserStatus(); // Ensure they're marked as new
+    this.resetNewUserStatus();
     this.router.navigate(['/welcome']);
   }
 
-  // Check authentication status (you can expand this based on your auth implementation)
-  isAuthenticated(): boolean {
-    // This is a placeholder - implement based on your actual auth logic
-    //  check for a token, session.
-    const token = localStorage.getItem('auth_token');
-    return !!token;
-  }
-
-  // Logout user
+  // --- Logout ---
   logout(): void {
-    // Clear auth data
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user_data');
-    this.resetNewUserStatus();
+    Object.values(this.KEYS).forEach(key => localStorage.removeItem(key));
     this.router.navigate(['/auth/login']);
-  }
-
-  // Store authentication token
-  setAuthToken(token: string): void {
-    localStorage.setItem('auth_token', token);
-  }
-
-  // Get authentication token
-  getAuthToken(): string | null {
-    return localStorage.getItem('auth_token');
-  }
-
-  // Store user data
-  setUserData(userData: any): void {
-    localStorage.setItem('user_data', JSON.stringify(userData));
-  }
-
-  // Get user data
-  getUserData(): any | null {
-    const userData = localStorage.getItem('user_data');
-    return userData ? JSON.parse(userData) : null;
   }
 }

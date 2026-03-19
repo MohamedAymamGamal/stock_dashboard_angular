@@ -21,6 +21,7 @@ import { AuthService } from '../../services/auth.service';
   ],
   templateUrl: './register.html',
   styleUrl: './register.scss',
+  standalone:true
 })
 export class Register  implements OnInit {
   form !: FormGroup;
@@ -72,14 +73,11 @@ export class Register  implements OnInit {
           this.toast.success('Account created successfully');
 
           // Store auth token if returned from API
-          if (response?.token) {
-            this.authService.setAuthToken(response.token);
-          }
+
+          this.authService.setAuthToken(response.token);
 
           // Store user data if returned
-          if (response?.user) {
-            this.authService.setUserData(response.user);
-          }
+          this.authService.setUserData(response.user.username);
 
           // Handle registration success - redirect to welcome page
           this.authService.handleRegistrationSuccess();

@@ -8,6 +8,7 @@ import {Stock} from '../../../Types/Stock';
   imports: [],
   templateUrl: './stock-details.html',
   styleUrl: './stock-details.scss',
+  standalone: true
 })
 export class StockDetails implements OnInit{
 

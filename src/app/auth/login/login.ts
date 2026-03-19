@@ -9,7 +9,6 @@ import { Toast } from '../../services/toast';
 import { AuthService } from '../../services/auth.service';
 import { login } from '../../Types/Login';
 import {LoginResponse} from '../../Types/LoginResponse';
-import {User} from '../../services/user';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +22,7 @@ import {User} from '../../services/user';
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
+  standalone: true
 })
 export class Login implements OnInit {
   form!: FormGroup;
@@ -33,7 +33,6 @@ export class Login implements OnInit {
     private fb: FormBuilder,
     private toast: Toast,
     private authService: AuthService,
-    private user: User
   ) {}
 
   ngOnInit(): void {
@@ -66,15 +65,14 @@ export class Login implements OnInit {
       .subscribe({
         next: (response:LoginResponse) => {
           this.toast.success('Login successful');
-          this.user.UserName.next(response.user?.name);
-          // Store auth token if returned from API
-          if (response?.token) {
-            this.authService.setAuthToken(response.token);
-          }
+
           // Store user data if returned
-          if (response?.user) {
-            this.authService.setUserData(response.user);
-          }
+          this.authService.setAuthToken(response.token);
+
+          this.authService.setUserData({
+            username: response.username,
+            email: response.email
+          });
 
           // Handle login success - redirect based on new user status
           this.authService.handleLoginSuccess();

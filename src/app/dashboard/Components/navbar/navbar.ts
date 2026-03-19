@@ -4,8 +4,8 @@ import { MenubarModule } from 'primeng/menubar';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import {RouterLink} from '@angular/router';
-import {User} from '../../../services/user';
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -87,21 +87,15 @@ export class Navbar implements OnInit {
       ]
     }
   ];
-  username:string = '';
-  constructor(private user:User) {}
-  ngOnInit(): void {
-      this.getUserName()
-  }
 
+
+
+  ngOnInit(): void {
+  }
 
   toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
 
-  getUserName(){
-    this.user.UserName.subscribe((next)=>{
-      this.username = next;
-    })
-  }
 
 }

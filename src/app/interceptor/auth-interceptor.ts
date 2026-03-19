@@ -5,7 +5,7 @@ export const authInterceptor: HttpInterceptorFn =
   (req:HttpRequest<any>,
    next:HttpHandlerFn): Observable<HttpEvent<any>> => {
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('auth_token');
   if (!token) {
     return next(req);
   }

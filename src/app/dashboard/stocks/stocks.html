@@ -1,45 +1,71 @@
+<!-- stocks.html -->
+<ng-container *ngIf="state$ | async as state">
 
-<div class="card">
-  <div class="flex items-center justify-center gap-2">
+  <div class="card">
 
-    <app-input-label class="" [rows]="3"  #search placeholder="search"  type="text" label="Name" [autoFocus]="true" />
-    <app-button label="Search" type = "submit" severity="danger" icon="pi pi-search"></app-button>
+    <!-- search bar -->
+    <div class="flex items-center gap-2 mb-4">
+      <app-input-label
+        [(ngModel)]="searchQuery"
+        placeholder="Search by name"
+        type="text"
+        label="Name"
+        [autoFocus]="true"
+      />
+      <app-button
+        label="Search"
+        severity="danger"
+        icon="pi pi-search"
+        (onClick)="onSearch(searchQuery)"
+        type="submit"
+      >
+      </app-button>
+      <app-button
+        type="submit"
+        label="Reset"
+        severity="secondary"
+        (onClick)="onReset()">
+      </app-button>
+    </div>
+
+    <!-- table -->
+    <p-table
+      [value]="stocks"
+      [rowTrackBy]="trackById">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Symbol</th>
+          <th>Company Name</th>
+          <th>Purchase</th>
+          <th>Last Div</th>
+          <th>Industry</th>
+          <th>Market Cap</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-stock>
+        <tr>
+          <td>{{ stock.symbol }}</td>
+          <td>{{ stock.companyName }}</td>
+          <td>{{ stock.purchase }}</td>
+          <td>{{ stock.lastDiv }}</td>
+          <td>{{ stock.indeustry }}</td>
+          <td>{{ stock.marketCap }}</td>
+          <td class="flex gap-2">
+            <app-button type="button" label="View"   (onClick)="viewStockDetails(stock.id)" />
+            <app-button type="button" label="Delete" severity="danger" (onClick)="delete(stock.id)" />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
-  <p-table [value]="stocks" [rowTrackBy]="trackByStockId"  [tableStyle]="{ 'min-width': '50rem' }" >
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Symbol</th>
-        <th>Company Name</th>
-        <th>purchase</th>
-        <th>lastDiv</th>
-        <th>industry<th>
-        <th>marketCap</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-stock>
-      <tr>
-        <td>{{ stock.symbol }}</td>
-        <td>{{ stock.companyName }}</td>
-        <td>{{ stock.purchase }}</td>
-        <td>{{ stock.lastDiv }}</td>
-        <td>{{ stock.indeustry }}</td>
-        <td>{{stock.marketCap}}</td>
-        <td>
-          <button pButton label="Delete" (click)="delete(stock.id)"></button>
-          <button pButton label="View" (click)="viewStockDetails(stock.id)"></button>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
-<!--<ng-container class="flex-col items-center" *ngFor="let stock of stocks; trackBy: trackByStockId">-->
-<!--  {{stock.symbol}}-->
-<!--</ng-container>-->
-<app-pagination
-  [PageNumber]="params.pageNumber"
-  [PageSize]="params.pageSize"
-  [TotalRecords]="params.totalRecords"
-  (PageChange)="onPageChange($event)"
-  class="fixed bottom-0 w-full"
->
-</app-pagination>
+
+  <app-pagination
+    [PageNumber]="state.pageNumber"
+    [PageSize]="state.pageSize"
+    [TotalRecords]="total"
+    (PageChange)="onPageChange($event)"
+    class="fixed bottom-0 w-full">
+  </app-pagination>
+
+</ng-container>
