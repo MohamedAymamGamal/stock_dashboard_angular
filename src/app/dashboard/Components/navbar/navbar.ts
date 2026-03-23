@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
+import {AuthService} from '../../../services/auth.service';
+import {Toast} from '../../../services/toast';
+import {ConfirmDialogService} from '../../../services/confirm-dialog.service';
 
 
 
@@ -16,6 +19,9 @@ import { CommonModule } from '@angular/common';
 })
 export class Navbar implements OnInit {
 
+  protected readonly  auth = inject(AuthService);
+  private  readonly toast = inject(Toast);
+  private readonly dialog = inject(ConfirmDialogService);
   mobileMenuOpen = false;
   items: MenuItem[] = [
     {
@@ -96,6 +102,21 @@ export class Navbar implements OnInit {
   toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
+  logout() {
+    this.dialog.open({
+      title: "logout",
+      message: "are you sure you want to logout?",
+      accept: () => {
+        this.auth.logout();
+        setTimeout(() => {
+          this.toast.info('Logout');
+        }, 600);
+      },
+      type:        'warning',
+      acceptLabel: 'logout',
+      rejectLabel: 'Cancel',
+    })
 
+  }
 
 }

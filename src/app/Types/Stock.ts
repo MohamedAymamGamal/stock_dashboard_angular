@@ -1,10 +1,11 @@
 export interface Stock {
   id: number;
   symbol: string;
-  name: string;
-  price: number;
-  change: number;
-  changePercent: number;
+  companyName: string;
+  purchase: number;
+  lastDiv: number;
+  indeustry: number;
   volume: number;
   marketCap: number;
+  comments: []
 }

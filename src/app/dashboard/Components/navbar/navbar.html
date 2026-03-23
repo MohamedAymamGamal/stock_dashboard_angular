@@ -14,7 +14,12 @@
 
 
     </nav>
-
+    <span class="text-primary text-color-accent" *ngIf="auth.getUsername() as username">
+      <span class="font-bold text-black ">hi </span>{{ username }}
+    </span>
+    <span>
+      <p-button icon="pi pi-sign-in" severity='secondary' (click)="logout()"></p-button>
+    </span>
     <!-- Mobile Menu Toggle -->
     <div class="mobile-menu-toggle">
       <p-button

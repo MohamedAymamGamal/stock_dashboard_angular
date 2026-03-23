@@ -37,13 +37,18 @@ export const routes: Routes = [
     children: [
       {
         path: 'stocks',
-        loadComponent: () => import('./dashboard/stocks/stocks').then((m) => m.StocksComponent),
-
-
+        loadComponent: () =>
+          import('./dashboard/stocks/stocks').then((m) => m.StocksComponent),
       },
       {
-        path:'stocks/:id',
-        loadComponent: () =>import('./dashboard/stocks/stock-details/stock-details').then((m) => m.StockDetails),
+        path: 'stocks/create',
+        loadComponent: () =>
+          import('./dashboard/stocks/create-stock/create-stock').then((m) => m.CreateStock),
+      },
+      {
+        path: 'stocks/:id',
+        loadComponent: () =>
+          import('./dashboard/stocks/stock-details/stock-details').then((m) => m.StockDetails),
       }
     ]
   },

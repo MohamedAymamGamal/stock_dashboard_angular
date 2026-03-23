@@ -76,8 +76,10 @@ export class Register  implements OnInit {
 
           this.authService.setAuthToken(response.token);
 
-          // Store user data if returned
-          this.authService.setUserData(response.user.username);
+          this.authService.setUserData({
+            username: response.username,
+            email: response.email
+          });
 
           // Handle registration success - redirect to welcome page
           this.authService.handleRegistrationSuccess();

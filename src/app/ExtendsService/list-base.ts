@@ -1,11 +1,21 @@
-import {ChangeDetectorRef, inject, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Injectable,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {BehaviorSubject, combineLatest, Subject, switchMap, takeUntil} from 'rxjs';
 import {Query} from '../services/query';
 import {Api} from '../services/api';
 
 @Injectable({
   providedIn: 'root',
+
 })
+
 export abstract class ListBase  implements  OnInit , OnDestroy {
 
   protected query  = inject(Query);
@@ -28,17 +38,17 @@ export abstract class ListBase  implements  OnInit , OnDestroy {
     ]).pipe(
       takeUntil(this.destroy$),
       switchMap(([state]) => {
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
         return this.api.index(this.endpoint, state);
       })
     ).subscribe({
       next: (res: any) => {
         this.items   = res.data;
         this.total   = res.totalCount;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       error: err => {
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
         console.error(err);
       }
     });

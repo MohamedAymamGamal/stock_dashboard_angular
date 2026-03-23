@@ -47,12 +47,11 @@ export class StocksComponent  extends ListBase implements OnInit {
 
 
   override ngOnInit(): void {
-    super.ngOnInit(); // ← always call base
+    super.ngOnInit();
 
     // pre-fill search input from URL on load
     this.state$.pipe(take(1)).subscribe(state => {
       this.searchQuery = state.companyName;
-      this.cdr.detectChanges();
     });
   }
 
@@ -87,6 +86,9 @@ export class StocksComponent  extends ListBase implements OnInit {
     return item.stockId;
   }
 
+  createStock() {
+    this.router.navigate(['/dashboard', 'stocks', 'create']);
+  }
   // ngOnDestroy(): void {
   //   this.state$.unsubscribe();
   // }

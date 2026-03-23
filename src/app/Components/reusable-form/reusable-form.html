@@ -1,0 +1,34 @@
+<form [formGroup] = "form" (ngSubmit) = "onSubmit()" class="flex flex-col gap-4 w-full">
+  <app-input-label
+    *ngFor="let field of config.fields"
+    [label]="field.label"
+    [type]="field.type"
+    [placeholder]="field.placeholder ?? ''"
+    [required]="field.required ?? false"
+    [disabled]="field.disabled ?? false"
+    [autoFocus]="field.autoFocus ?? false"
+    [rows]="field.rows ?? 3"
+    [invalid] = "isInvalid(field.key)"
+    [errorMessage] = "getError(field)"
+  />
+  <div class="flex gap-2 justify-end pt-2">
+    <app-button
+      *ngIf="config.showReset"
+      [label]="config.resetLabel ?? 'Reset'"
+      type='reset'
+      [severity]="'secondary'"
+      (click)="onReset()"
+    />
+    <app-button
+      [label]="config.submitLabel ?? 'Submit'"
+      type='submit'
+      [severity]="'primary'"
+      [icon] = "config.submitIcon ?? ''"
+
+    />
+  </div>
+
+
+
+
+</form>

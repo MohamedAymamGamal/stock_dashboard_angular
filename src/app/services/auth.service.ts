@@ -73,7 +73,8 @@ export class AuthService {
 
   // --- Logout ---
   logout(): void {
-    Object.values(this.KEYS).forEach(key => localStorage.removeItem(key));
+    localStorage.removeItem(this.KEYS.TOKEN);
+    localStorage.removeItem(this.KEYS.USER_DATA);
     this.router.navigate(['/auth/login']);
   }
 }

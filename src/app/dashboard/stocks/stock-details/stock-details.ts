@@ -1,37 +1,39 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {Api} from '../../../services/api';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Stock} from '../../../Types/Stock';
+import {Card} from 'primeng/card';
+
 
 @Component({
   selector: 'app-stock-details',
-  imports: [],
+  imports: [
+    Card,
+
+  ],
   templateUrl: './stock-details.html',
   styleUrl: './stock-details.scss',
   standalone: true
 })
 export class StockDetails implements OnInit{
 
-  stock: Stock | null = null;
-
+  stock = signal<Stock | null>(null);
   constructor(private  router: Router , private api: Api, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.getbyId(+id);
-    }
-  }
+    this.route.paramMap.subscribe(params => {
+      const id = Number(params.get('id'));
 
-  getbyId(id: number) {
-    this.api.show<Stock>('stock', id).subscribe({
-      next: (data) => {
-        this.stock = data;
-      },
-      error: (error) => {
-        console.error('Error fetching stock details:', error);
-      }
+      if (!id) return;
+
+
+      this.api.show<Stock>('stock', id).subscribe({
+        next: (data) => this.stock.set(data),
+      });
     });
   }
+
+
+
 
 }
