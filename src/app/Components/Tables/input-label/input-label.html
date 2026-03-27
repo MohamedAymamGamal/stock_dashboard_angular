@@ -15,8 +15,7 @@
     [disabled]="disabled"
     [required]="required"
     [(ngModel)]="value"
-
-    (ngModelChange)="onChange($event)"
+    (ngModelChange)="onValueChange($event)"
     (blur)="onTouched()"
   />
 
@@ -48,6 +47,18 @@
     (onBlur)="onTouched()"
   ></p-inputnumber>
 
+  <p-inputnumber
+    *ngIf="type === 'decimal'"
+    mode="decimal"
+    [inputId]="inputId"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [required]="required"
+    [(ngModel)]="value"
+    (ngModelChange)="onChange($event)"
+    (onBlur)="onTouched()"
+  ></p-inputnumber>
+
   <!-- TEXTAREA -->
   <textarea
     *ngIf="type === 'textarea'"
@@ -62,6 +73,20 @@
     (ngModelChange)="onChange($event)"
     (blur)="onTouched()"
   ></textarea>
+  <div
+    *ngIf="maxLength"
+    class="char-counter"
 
-  <small *ngIf="invalid && errorMessage" class="p-error">{{ errorMessage }}</small>
+  >
+    {{ (value?.length ?? 0) }} / {{ maxLength }}
+  </div>
+
+  <small
+    [ngClass]="{
+    'text-red-500': isOverLimit,
+    'text-white': !isOverLimit
+  }"
+  >
+    {{ isOverLimit ? 'Max ' + maxLength + ' characters allowed' : errorMessage }}
+  </small>
 </div>

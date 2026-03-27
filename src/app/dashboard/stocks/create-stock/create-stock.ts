@@ -23,19 +23,33 @@ export class CreateStock {
         label: 'Stock Symbol',
         type: 'text',
         placeholder: 'AAPL',
+        required: true,
         autoFocus: true,
+        validators: [Validators.max(10)],
+        maxLength: 10,
+
+        errorMessages: {
+
+          max: `must be at most 10 characters`,
+          min: 'Symbol must be at least 1 character',
+
+        },
       },
       {
         key: 'companyName',
         label: 'Company Name',
         type: 'text',
         placeholder: 'Apple Inc.',
+
       },
       {
         key: 'purchase',
         label: 'Purchase Price',
         type: 'number',
         placeholder: '0.00',
+        errorMessages: {
+          required: 'Purchase price is required',
+        },
 
       },
       {
@@ -43,18 +57,24 @@ export class CreateStock {
         label: 'Last Dividend',
         type: 'number',
         placeholder: '0.00',
+        required: true,
+
       },
       {
-        key: 'indeustry ',
+        key: 'Industry',
         label: 'Industry',
         type: 'text',
         placeholder: 'Technology',
+
+
       },
       {
         key: 'marketCap',
         label: 'Market Cap',
         type: 'number',
         placeholder: '1000000',
+        required: true,
+
       },
       {
         key: 'notes',

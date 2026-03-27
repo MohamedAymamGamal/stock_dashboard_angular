@@ -39,22 +39,31 @@ export class InputLabel implements ControlValueAccessor ,AfterViewInit {
   @Input() fullWidth       = true;
   @Input() autoFocus       = false;
   @Input() rows            = 3;
+  @Input() maxLength: number | null = null;
 
   @ViewChild('inputRef') inputRef: ElementRef<HTMLInputElement> | undefined;
 
   readonly inputId = `input-${Math.random().toString(36).slice(2, 7)}`;
 
-
+  get isOverLimit(): boolean {
+    if (!this.maxLength) return false;
+    return String(this.value ?? '').length > this.maxLength;
+  }
   ngAfterViewInit(): void {
     if (this.autoFocus) {
       setTimeout(() => this.inputRef?.nativeElement?.focus());
     }
   }
+
   value: any = '';
   onChange:  (v: any) => void = () => {};
   onTouched: ()       => void = () => {};
-
-  writeValue(v: any): void         { this.value = v ?? ''; }
+  onValueChange(val: any): void {
+    this.value = val;
+    this.onChange(val);   // notifies the form control
+    this.onTouched();
+  }
+  writeValue(v: any): void         { this.value = v ; }
   registerOnChange(fn: any): void  { this.onChange = fn; }
   registerOnTouched(fn: any): void { this.onTouched = fn; }
   setDisabledState(v: boolean): void { this.disabled = v; }

@@ -1,7 +1,9 @@
+import {InputType} from './InputType';
+
 export interface FormFieldConfig {
   key: string;
   label: string;
-  type: 'text' | 'email' | 'password' | 'number' | 'textarea';
+  type: InputType;
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
@@ -9,4 +11,6 @@ export interface FormFieldConfig {
   rows?: number;
   validators?: any[];
   errorMessages?: Record<string, string>;
+  maxLength?: number;   // ADD
+  minLength?: number;   // ADD
 }

@@ -1,1 +1,1 @@
-export type InputType = 'text' | 'email' | 'password' | 'number' | 'textarea';
+export type InputType = 'text' | 'email' | 'password' | 'number' | 'textarea' | 'decimal';
