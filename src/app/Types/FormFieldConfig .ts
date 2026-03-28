@@ -13,4 +13,6 @@ export interface FormFieldConfig {
   errorMessages?: Record<string, string>;
   maxLength?: number;   // ADD
   minLength?: number;   // ADD
+  isDirty?: boolean;   // ADD
+  defaultValue: null,
 }

@@ -27,6 +27,7 @@ export class ReusableForm implements OnInit {
   @Output() formReset = new EventEmitter<void>();
 
   form!: FormGroup;
+
   constructor(private fb: FormBuilder) {}
   ngOnInit(): void {
     this.controls();
@@ -43,6 +44,7 @@ export class ReusableForm implements OnInit {
     }
     this.form = this.fb.group(controls);
   }
+
   isInvalid(key: string): boolean {
     const ctrl = this.form.get(key);
     return !!(ctrl && ctrl.invalid && ctrl.touched);

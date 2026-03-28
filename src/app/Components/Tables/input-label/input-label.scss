@@ -1,0 +1,24 @@
+input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &.input-warning {
+    border-color: #f59e0b !important;
+    box-shadow: 0 0 0 1px #f59e0b;
+  }
+  &.input-danger {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 1px #ef4444;
+  }
+}
+
+// Progress bar color overrides
+:host ::ng-deep {
+  .progress-normal .p-progressbar-value { background: #22c55e; }
+  .progress-warning .p-progressbar-value { background: #f59e0b; }
+  .progress-danger .p-progressbar-value { background: #ef4444; }
+
+  .p-progressbar {
+    border-radius: 999px;
+    background: #e5e7eb;
+  }
+}

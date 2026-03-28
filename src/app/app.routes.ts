@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthGuard, WelcomeGuard, DashboardGuard } from './guards/auth.guard';
+
 
 export const routes: Routes = [
   {path: '', redirectTo: 'auth', pathMatch: 'full'},
@@ -44,6 +44,7 @@ export const routes: Routes = [
         path: 'stocks/create',
         loadComponent: () =>
           import('./dashboard/stocks/create-stock/create-stock').then((m) => m.CreateStock),
+        // canDeactivate: [dirtyFormGuard],
       },
       {
         path: 'stocks/:id',

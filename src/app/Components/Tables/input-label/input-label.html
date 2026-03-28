@@ -12,7 +12,6 @@
     [id]="inputId"
     [type]="type"
     [placeholder]="placeholder"
-    [disabled]="disabled"
     [required]="required"
     [(ngModel)]="value"
     (ngModelChange)="onValueChange($event)"
@@ -24,7 +23,6 @@
     *ngIf="type === 'password'"
     [inputId]="inputId"
     [placeholder]="placeholder"
-    [disabled]="disabled"
     [required]="required"
     [toggleMask]="true"
     [feedback]="false"
@@ -40,9 +38,8 @@
     *ngIf="type === 'number'"
     [inputId]="inputId"
     [placeholder]="placeholder"
-    [disabled]="disabled"
     [required]="required"
-    [(ngModel)]="value"
+    [(ngModel)]="value ?? null"
     (ngModelChange)="onChange($event)"
     (onBlur)="onTouched()"
   ></p-inputnumber>
@@ -52,9 +49,8 @@
     mode="decimal"
     [inputId]="inputId"
     [placeholder]="placeholder"
-    [disabled]="disabled"
     [required]="required"
-    [(ngModel)]="value"
+    [(ngModel)]="value ?? null"
     (ngModelChange)="onChange($event)"
     (onBlur)="onTouched()"
   ></p-inputnumber>
@@ -66,27 +62,34 @@
     pInputTextarea
     [id]="inputId"
     [placeholder]="placeholder"
-    [disabled]="disabled"
     [required]="required"
     [rows]="rows"
     [(ngModel)]="value"
     (ngModelChange)="onChange($event)"
     (blur)="onTouched()"
   ></textarea>
-  <div
-    *ngIf="maxLength"
-    class="char-counter"
 
-  >
-    {{ (value?.length ?? 0) }} / {{ maxLength }}
+  <div *ngIf="maxLength && touched" class="flex flex-col mt-2 gap-1">
+    <p-progressbar
+      [value]="charPercent"
+      [showValue]="false"
+      [style]="{ height: '4px' }"
+      [styleClass]="progressBarClass"
+    />
+    <div class="flex justify-between text-xs"
+         [class.text-yellow-500]="charCountColor === 'warning'"
+         [class.text-red-500]="charCountColor === 'danger'"
+         [class.text-gray-400]="charCountColor === 'normal'">
+      <small *ngIf="invalid || isOverLimit" class="error-msg">
+
+        {{ isOverLimit ? 'Max ' + maxLength + ' characters allowed' : errorMessage }}
+      </small>
+      <span class="ml-auto">{{ value?.length ?? 0 }} / {{ maxLength }}</span>
+    </div>
   </div>
 
-  <small
-    [ngClass]="{
-    'text-red-500': isOverLimit,
-    'text-white': !isOverLimit
-  }"
-  >
-    {{ isOverLimit ? 'Max ' + maxLength + ' characters allowed' : errorMessage }}
+  <small *ngIf="(invalid || isOverLimit) && !maxLength" class="text-red-500 text-xs">
+    {{ errorMessage }}
   </small>
+
 </div>
