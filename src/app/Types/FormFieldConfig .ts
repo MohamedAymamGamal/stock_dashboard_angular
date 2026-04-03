@@ -11,8 +11,8 @@ export interface FormFieldConfig {
   rows?: number;
   validators?: any[];
   errorMessages?: Record<string, string>;
-  maxLength?: number;   // ADD
-  minLength?: number;   // ADD
-  isDirty?: boolean;   // ADD
-  defaultValue: null,
+  maxLength?: number;
+  minLength?: number;
+  isDirty?: boolean;
+  value?: any;
 }

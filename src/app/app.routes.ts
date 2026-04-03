@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-
-
+import {StockModule} from './dashboard/stocks/stock-module'
 export const routes: Routes = [
   {path: '', redirectTo: 'auth', pathMatch: 'full'},
   {
@@ -35,21 +34,17 @@ export const routes: Routes = [
     path: 'dashboard',
     loadComponent: () => import('./dashboard/dashboard').then((m) => m.Dashboard),
     children: [
+
       {
         path: 'stocks',
-        loadComponent: () =>
-          import('./dashboard/stocks/stocks').then((m) => m.StocksComponent),
+        loadChildren: () =>
+          import('./dashboard/stocks/stock-module').then(m => m.StockModule)
+
       },
       {
-        path: 'stocks/create',
+        path:'setting',
         loadComponent: () =>
-          import('./dashboard/stocks/create-stock/create-stock').then((m) => m.CreateStock),
-        // canDeactivate: [dirtyFormGuard],
-      },
-      {
-        path: 'stocks/:id',
-        loadComponent: () =>
-          import('./dashboard/stocks/stock-details/stock-details').then((m) => m.StockDetails),
+          import('./dashboard/setting/setting').then((m) => m.Setting),
       }
     ]
   },

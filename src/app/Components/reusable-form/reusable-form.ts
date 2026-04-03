@@ -6,6 +6,7 @@ import {InputLabel} from '../Tables/input-label/input-label';
 import {NgForOf, NgIf} from '@angular/common';
 import {Button} from '../button/button';
 import {FloatLabel} from 'primeng/floatlabel';
+import {ConfirmDialogService} from '../../services/confirm-dialog.service';
 
 @Component({
   selector: 'app-reusable-form',
@@ -28,7 +29,7 @@ export class ReusableForm implements OnInit {
 
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,private confirm:ConfirmDialogService) {}
   ngOnInit(): void {
     this.controls();
   }
@@ -39,7 +40,7 @@ export class ReusableForm implements OnInit {
 
 
       controls[field.key] = [
-        {value: '',disabled: field.disabled ?? false},validators
+        {value: field.value ?? '',disabled: field.disabled ?? false  },validators
       ];
     }
     this.form = this.fb.group(controls);
@@ -74,8 +75,19 @@ export class ReusableForm implements OnInit {
   }
 
   onReset(): void {
-    this.form.reset();
-    this.formReset.emit();
+    this.confirm.open({
+      title:       'confirm',
+      message:     'Are you sure :)',
+      type:        'success',
+      acceptLabel: 'accept',
+      rejectLabel: 'Cancel',
+      accept: () => {
+        this.form.reset();
+        this.formReset.emit();
+      }
+    })
+
+
   }
 
 

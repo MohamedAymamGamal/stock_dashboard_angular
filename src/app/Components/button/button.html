@@ -10,3 +10,11 @@
 
 >
 </p-button>
+<p-toggleswitch
+  *ngIf="type === 'toggle'"
+  [disabled] = "disabled"
+  (click) = "onClick.emit()">
+  <ng-template #handle let-checked="checked">
+    <i [ngClass]="['!text-xs', 'pi', checked ? 'pi-check' : 'pi-times']"></i>
+  </ng-template>
+</p-toggleswitch>

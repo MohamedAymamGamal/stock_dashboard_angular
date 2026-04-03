@@ -78,7 +78,7 @@ export class Navbar implements OnInit {
         {
           label: 'Profile',
           icon: 'pi pi-user',
-          routerLink: '/dashboard/settings/profile'
+          routerLink: '/dashboard/setting'
         },
         {
           label: 'Preferences',

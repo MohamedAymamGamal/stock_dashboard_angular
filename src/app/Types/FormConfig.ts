@@ -6,4 +6,6 @@ export interface FormConfig {
   submitIcon?: string;
   showReset?: boolean;
   resetLabel?: string;
+
+
 }

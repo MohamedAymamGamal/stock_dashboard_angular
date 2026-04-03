@@ -1,0 +1,9 @@
+<div class="m-6">
+  <app-reusable-form
+    *ngIf="formConfig"
+    [Label]="'Update Stock'"
+    [config]="formConfig!"
+    (formSubmit)="onSubmit($event, stockId)"
+  />
+  <label>{{stock()?.symbol}}</label>
+</div>

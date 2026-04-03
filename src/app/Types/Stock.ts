@@ -7,5 +7,6 @@ export interface Stock {
   indeustry: number;
   volume: number;
   marketCap: number;
+  notes: string;
   comments: []
 }

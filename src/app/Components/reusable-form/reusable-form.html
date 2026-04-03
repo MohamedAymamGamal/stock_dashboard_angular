@@ -1,5 +1,5 @@
 <form [formGroup] = "form" (ngSubmit) = "onSubmit()" class="flex flex-col gap-4 w-full">
- <label class="text-lg font-bold" *ngIf="Label">{{Label}}</label>
+  <label class="text-lg font-bold" *ngIf="Label">{{Label}}</label>
 
   <app-input-label
     *ngFor="let field of config.fields"
@@ -22,7 +22,7 @@
     <app-button
       *ngIf="config.showReset"
       [label]="config.resetLabel ?? 'Reset'"
-      type='reset'
+      type='button'
       [severity]="'secondary'"
       (click)="onReset()"
     />

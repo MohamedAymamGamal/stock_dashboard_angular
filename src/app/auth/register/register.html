@@ -53,9 +53,21 @@
           }"
           required
         >
-        <small *ngIf="email?.invalid && (email?.touched || email?.dirty)" class="text-red-500">
-          Email is required.
-        </small>
+        <div class="flex-col flex ">
+
+          @if(email?.invalid && (email?.touched || email?.dirty)){
+            <small *ngIf="email?.invalid && (email?.touched || email?.dirty)" class="text-red-500">
+              Email is required.
+            </small>
+          } @else {
+            <small  class="text-red-500">
+              This email is already used.
+            </small>
+          }
+
+
+        </div>
+
       </div>
 
       <!-- Password Field -->
@@ -84,7 +96,7 @@
 
       <div class="space-y-2">
         <label  for="confirmPassword" class="block text-sm font-medium text-gray-700">
-          Password
+          confirm Password
         </label>
         <input
           id="confirmPassword"

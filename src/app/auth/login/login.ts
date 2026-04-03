@@ -61,7 +61,7 @@ export class Login implements OnInit {
     }
     const formData = this.form.value;
 
-    this.api.store<login, LoginResponse>('account/login', this.form.value)
+    this.api.store<login, LoginResponse>('account/login', formData)
       .subscribe({
         next: (response:LoginResponse) => {
           this.toast.success('Login successful');
@@ -80,11 +80,9 @@ export class Login implements OnInit {
           console.log('Login response:', response);
         },
         error: (err) => {
-          if (err.error?.length) {
-            this.toast.error(err.error[0].description);
-          } else {
-            this.toast.error('Invalid email or password');
-          }
+
+          this.toast.error('Invalid email or password')
+          console.log(err)
         }
       });
   }

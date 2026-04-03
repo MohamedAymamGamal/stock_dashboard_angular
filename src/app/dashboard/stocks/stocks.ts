@@ -7,11 +7,9 @@ import {
   ViewChild,
   ElementRef, inject
 } from '@angular/core';
-import {Api} from '../../services/api';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {Stock} from '../../Types/Stock';
-import {params} from '../../Types/Params';
 import {Pagination} from '../../Components/pagination/pagination';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
@@ -82,12 +80,16 @@ export class StocksComponent  extends ListBase implements OnInit {
   viewStockDetails(stockId: number): void {
     this.router.navigate(['/dashboard', 'stocks', stockId]);  }
 
+
   override trackById(_:number, item:any){
     return item.stockId;
   }
 
   createStock() {
     this.router.navigate(['/dashboard', 'stocks', 'create']);
+  }
+  update(stockId: number): void {
+    this.router.navigate(['/dashboard', 'stocks', 'update', stockId]);
   }
   // ngOnDestroy(): void {
   //   this.state$.unsubscribe();

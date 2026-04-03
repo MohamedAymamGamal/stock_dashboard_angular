@@ -5,13 +5,12 @@ import {Api} from '../../../services/api';
 import {Toast} from '../../../services/toast';
 import {ReusableForm} from '../../../Components/reusable-form/reusable-form';
 import {ConfirmDialogService} from '../../../services/confirm-dialog.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {DirtyFormComponent} from '../../../Types/DirtyFormComponent';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-stock',
   imports: [
-    ReusableForm
+    ReusableForm,
   ],
   templateUrl: './create-stock.html',
   styleUrl: './create-stock.scss',
@@ -32,7 +31,6 @@ export class CreateStock {
         required: true,
         autoFocus: true,
         maxLength: 10,
-        defaultValue: null,
         errorMessages: {
           required: 'Symbol is required',
           maxlength: 'Symbol cannot exceed 10 characters',
@@ -45,7 +43,6 @@ export class CreateStock {
         placeholder: 'Apple Inc.',
         required: true,
         maxLength: 10,
-        defaultValue: null,
         errorMessages: {
           required: 'Company name is required',
           maxlength: 'Company name cannot exceed 10 characters',
@@ -57,7 +54,6 @@ export class CreateStock {
         type: 'decimal',
         placeholder: '0.00',
         required: true,
-        defaultValue: null,
         validators: [Validators.min(1), Validators.max(1000000000)],
         errorMessages: {
           required: 'Purchase price is required',
@@ -71,7 +67,6 @@ export class CreateStock {
         type: 'decimal',
         placeholder: '0.00',
         required: true,
-        defaultValue: null,
         validators: [Validators.min(0.001), Validators.max(100)],
         errorMessages: {
           required: 'Last dividend is required',
@@ -85,9 +80,10 @@ export class CreateStock {
         type: 'text',
         placeholder: 'Technology',
         maxLength: 10,
-        defaultValue: null,
+        value: '',
+
         errorMessages: {
-          maxlength: 'Industry cannot exceed 10 characters', // ✅ was missing
+          maxlength: 'Industry cannot exceed 10 characters',
         },
       },
       {
@@ -96,7 +92,6 @@ export class CreateStock {
         type: 'number',
         placeholder: '1,000,000,000',
         required: true,
-        defaultValue: null,
         validators: [Validators.min(1), Validators.max(5000000000)],
         errorMessages: {
           required: 'Market cap is required',
@@ -110,7 +105,6 @@ export class CreateStock {
         label: 'Notes',
         type: 'textarea',
         rows: 4,
-        defaultValue: null,
       },
     ],
 
@@ -128,13 +122,18 @@ export class CreateStock {
       rejectLabel: 'Cancel',
       accept: () =>  this.api.store('stock',values).subscribe({
         next: values => {
-          setTimeout(() => {
-            this.toast.success('created successfully');
-          },300);
+          // setTimeout(() => {
+          // },300);
+          console.log(values)
         },
         error: error => {
           const message = error?.error()
-          this.toast.error('failed to create');
+          this.toast.error(message);
+          console.log(error,message)
+        },
+        complete: () => {
+          this.toast.success('created successfully');
+
         }
       })
     })

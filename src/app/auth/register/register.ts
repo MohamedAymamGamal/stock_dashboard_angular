@@ -8,6 +8,7 @@ import {ButtonDirective} from 'primeng/button';
 import {Toast} from '../../services/toast';
 import {confirmPasswordValidator} from '../../utilities/ConfirmPassword';
 import { AuthService } from '../../services/auth.service';
+import {AsyncValidators} from '../../utilities/AsyncValidators';
 
 @Component({
   selector: 'app-register',
@@ -38,8 +39,8 @@ export class Register  implements OnInit {
   }
   FormRegister(){
     this.form = this.fb.group({
-      Username: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
+      Username: ['', [Validators.required], ],
+      email: ['', [Validators.required, Validators.email],[AsyncValidators()]],
       password: ['', [Validators.required, Validators.minLength(12)]],
       confirmPassword: ['', [Validators.required, confirmPasswordValidator]],
     });
@@ -60,7 +61,7 @@ export class Register  implements OnInit {
     return this.form.get('confirmPassword');
   }
   onRegister() {
-    if (this.form.invalid) {
+    if (this.form.invalid || this.email?.errors) {
       this.form.markAllAsTouched();
       return;
     }
@@ -88,6 +89,7 @@ export class Register  implements OnInit {
           if (err.error?.length) {
             this.toast.error(err.error[0].description);
           } else {
+            this.email?.setErrors({ 'emailExists': true });
             this.toast.error('Something went wrong');
           }
         }
