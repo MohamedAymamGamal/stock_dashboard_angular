@@ -1,29 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import {TokenService} from './token-service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
   private readonly KEYS = {
-    TOKEN:            'token',
     USER_DATA:        'user_data',
     HAS_SEEN_WELCOME: 'has_seen_welcome',
   };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private tokenService: TokenService) {}
 
   // --- Token ---
-  setAuthToken(token: string): void {
-    localStorage.setItem(this.KEYS.TOKEN, token);
+  setAuthToken(token:string): void {
+    this.tokenService.setToken(token);
   }
 
-  getAuthToken(): string | null {
-    return localStorage.getItem(this.KEYS.TOKEN);
-  }
+
+
 
 
   isAuthenticated(): boolean {
-    return !!this.getAuthToken();
+    return this.tokenService.hasToken();
   }
 
   // --- User Data ---
@@ -73,7 +72,7 @@ export class AuthService {
 
   // --- Logout ---
   logout(): void {
-    localStorage.removeItem(this.KEYS.TOKEN);
+    this.tokenService.clearAllCookies();
     localStorage.removeItem(this.KEYS.USER_DATA);
     this.router.navigate(['/auth/login']);
   }

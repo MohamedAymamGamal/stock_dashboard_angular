@@ -1,71 +1,120 @@
-<header class="navbar-header">
-  <div class="navbar-container">
-    <!-- Logo/Brand -->
-    <div class="navbar-brand  brand-title ">
-      <i class="pi pi-chart-line text-2xl text-primary"></i>
-      <span class="brand-title text-black   ">Stock Dashboard</span>
+<header class="sticky top-0 z-50 bg-slate-800 shadow-md">
+  <div class="max-w-screen-xl mx-auto px-6 h-16 flex items-center gap-4">
 
-    </div>
+    <!-- Brand -->
+    <a routerLink="/dashboard" class="flex items-center gap-2 flex-shrink-0 no-underline">
+      <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+        <i class="pi pi-chart-line text-white text-sm"></i>
+      </div>
+      <span class="text-slate-100 font-bold text-base italic tracking-tight hidden sm:block">StockDash</span>
+    </a>
 
+    <div class="w-px h-5 bg-slate-600 mx-1 hidden md:block"></div>
 
-    <!-- Desktop Navigation -->
-    <nav class="navbar-nav desktop-nav nav-items">
-      <p-menubar [model]="items" class="custom-menubar "></p-menubar>
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-1 flex-1">
+      <a routerLink="/dashboard" routerLinkActive="bg-white/10 text-white"
+         class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:bg-white/8 hover:text-white text-sm font-medium transition-all no-underline">
+        <i class="pi pi-home text-xs"></i> Dashboard
+      </a>
 
-
-    </nav>
-    <span class="text-primary text-color-accent" *ngIf="auth.getUsername() as username">
-      <span class="font-bold text-black ">hi </span>{{ username }}
-    </span>
-    <span>
-      <p-button icon="pi pi-sign-in" severity='secondary' (click)="logout()"></p-button>
-    </span>
-    <!-- Mobile Menu Toggle -->
-    <div class="mobile-menu-toggle">
-      <p-button
-        icon="pi pi-bars"
-        severity='secondary'
-        (click)="toggleMobileMenu()"
-        class="mobile-menu-button"
-        aria-label="Toggle mobile menu">
-      </p-button>
-    </div>
-
-    <!-- Mobile Navigation -->
-    <nav class="navbar-nav mobile-nav" [class.mobile-nav-open]="mobileMenuOpen">
-      <div class="mobile-menu-content">
-        <div class="mobile-menu-header">
-          <span class="brand-title">Menu</span>
-          <p-button
-            severity='secondary'
-            icon="pi pi-times"
-            (click)="toggleMobileMenu()"
-            class="mobile-menu-close"
-            aria-label="Close mobile menu">
-          </p-button>
+      <!-- Dropdown items (those with sub-items) -->
+      <div *ngFor="let item of items | slice:1" class="relative group">
+        <button class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white text-sm font-medium transition-all">
+          <i [class]="item.icon + ' text-xs'"></i>
+          {{ item.label }}
+          <i class="pi pi-chevron-down text-[9px] text-slate-500 group-hover:text-slate-300 transition-transform group-hover:rotate-180"></i>
+        </button>
+        <div class="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl border border-slate-100 shadow-xl py-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+          <a *ngFor="let child of item.items" [routerLink]="child.routerLink"
+             class="flex items-center gap-2.5 px-3 py-2.5 text-slate-600 hover:bg-slate-50 text-sm no-underline transition-colors mx-1 rounded-lg">
+            <i [class]="child.icon + ' text-slate-400 text-xs w-4'"></i>
+            {{ child.label }}
+          </a>
         </div>
-        <p-tieredMenu [model]="items" class="mobile-tiered-menu"></p-tieredMenu>
       </div>
     </nav>
-  </div>
 
-  <!-- Mobile Menu Overlay -->
-  <div
-    class="mobile-menu-overlay"
-    [class.mobile-menu-overlay-open]="mobileMenuOpen"
-    (click)="toggleMobileMenu()">
+    <div class="flex-1 md:flex-none"></div>
+
+    <!-- Username pill -->
+    <div *ngIf="auth.getUsername() as username"
+         class="hidden sm:flex items-center gap-2 bg-white/6 border border-white/10 rounded-full px-3 py-1.5">
+      <div class="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center">
+        <span class="text-white text-xs font-semibold">{{ username.charAt(0).toUpperCase() }}</span>
+      </div>
+      <span class="text-slate-300 text-sm font-medium">{{ username }}</span>
+    </div>
+
+    <!-- Logout -->
+    <button (click)="logout()" pTooltip="Logout" tooltipPosition="bottom"
+            class="flex items-center justify-center w-9 h-9 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-all cursor-pointer">
+      <i class="pi pi-sign-out text-sm"></i>
+    </button>
+
+    <!-- Mobile toggle -->
+    <button (click)="toggleMobileMenu()"
+            class="md:hidden flex items-center justify-center w-9 h-9 rounded-lg border border-slate-600 text-slate-400 hover:bg-white/10 hover:text-white transition-all cursor-pointer">
+      <i class="pi pi-bars text-sm"></i>
+    </button>
+
   </div>
 </header>
 
-<!--<nav class="items-center flex justify-center ">-->
-<!--    <ul class="flex gap-5  ">-->
-<!--      <ng-container *ngFor="let item of items">-->
-<!--        <a routerLink="{{item.routerLink}} "  >-->
-<!--        <li >-->
-<!--          {{item.label}}-->
+<!-- Mobile overlay -->
+<div *ngIf="mobileMenuOpen" class="fixed inset-0 bg-black/50 z-40 md:hidden" (click)="toggleMobileMenu()"></div>
 
-<!--        </li>-->
-<!--        </a>-->
-<!--      </ng-container>-->
-<!--    </ul>-->
-<!--</nav>-->
+<!-- Mobile sidebar -->
+<div class="fixed top-0 left-0 h-full w-72 bg-slate-800 z-50 md:hidden transform transition-transform duration-300 shadow-2xl"
+     [class.-translate-x-full]="!mobileMenuOpen" [class.translate-x-0]="mobileMenuOpen">
+
+  <!-- Sidebar header -->
+  <div class="flex items-center justify-between px-5 h-16 border-b border-slate-700">
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 bg-blue-500 rounded-lg flex items-center justify-center">
+        <i class="pi pi-chart-line text-white text-xs"></i>
+      </div>
+      <span class="text-slate-100 font-bold text-sm italic">StockDash</span>
+    </div>
+    <button (click)="toggleMobileMenu()"
+            class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition-all">
+      <i class="pi pi-times text-sm"></i>
+    </button>
+  </div>
+
+  <!-- Mobile user -->
+  <div *ngIf="auth.getUsername() as username" class="flex items-center gap-3 px-5 py-4 border-b border-slate-700/60">
+    <div class="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+      <span class="text-white text-sm font-semibold">{{ username.charAt(0).toUpperCase() }}</span>
+    </div>
+    <div>
+      <p class="text-slate-200 text-sm font-medium m-0">{{ username }}</p>
+      <p class="text-slate-500 text-xs m-0">Logged in</p>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <nav class="px-3 py-3 overflow-y-auto">
+    <a routerLink="/dashboard" (click)="toggleMobileMenu()"
+       class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white text-sm font-medium no-underline transition-all mb-0.5">
+      <i class="pi pi-home text-slate-500 text-xs w-4"></i> Dashboard
+    </a>
+
+    <ng-container *ngFor="let item of items | slice:1">
+      <p class="text-slate-500 text-xs font-semibold uppercase tracking-widest px-3 pt-4 pb-1 m-0">{{ item.label }}</p>
+      <a *ngFor="let child of item.items" [routerLink]="child.routerLink" (click)="toggleMobileMenu()"
+         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white text-sm no-underline transition-all mb-0.5">
+        <i [class]="child.icon + ' text-slate-500 text-xs w-4'"></i>
+        {{ child.label }}
+      </a>
+    </ng-container>
+  </nav>
+
+  <!-- Mobile logout -->
+  <div class="px-4 py-4 border-t border-slate-700">
+    <button (click)="logout()"
+            class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 text-sm font-medium transition-all cursor-pointer">
+      <i class="pi pi-sign-out text-xs"></i> Logout
+    </button>
+  </div>
+</div>

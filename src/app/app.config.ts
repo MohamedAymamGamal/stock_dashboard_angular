@@ -8,6 +8,7 @@ import Aura from '@primeuix/themes/aura';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {authInterceptor} from './interceptor/auth-interceptor';
 import {ConfirmationService, MessageService} from 'primeng/api';
+import {CookieService} from 'ngx-cookie-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     ConfirmationService,
     provideAnimationsAsync(),
     MessageService,
+    CookieService,
     providePrimeNG({
       theme: {
         preset: Aura,

@@ -7,12 +7,14 @@ import { CommonModule } from '@angular/common';
 import {AuthService} from '../../../services/auth.service';
 import {Toast} from '../../../services/toast';
 import {ConfirmDialogService} from '../../../services/confirm-dialog.service';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {TooltipModule} from 'primeng/tooltip';
 
 
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, MenubarModule, TieredMenuModule, ButtonModule],
+  imports: [CommonModule, TooltipModule, MenubarModule, TieredMenuModule, ButtonModule, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
   standalone: true,
@@ -88,7 +90,8 @@ export class Navbar implements OnInit {
         {
           label: 'Logout',
           icon: 'pi pi-sign-out',
-          routerLink: '/auth/logout'
+          routerLink: '/auth/logout',
+          action: () => this.logout()
         }
       ]
     }

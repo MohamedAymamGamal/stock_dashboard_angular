@@ -74,9 +74,8 @@ export class Register  implements OnInit {
           this.toast.success('Account created successfully');
 
           // Store auth token if returned from API
-
           this.authService.setAuthToken(response.token);
-
+          //for user data (username and email in local storeage) :) or :(
           this.authService.setUserData({
             username: response.username,
             email: response.email
@@ -89,6 +88,7 @@ export class Register  implements OnInit {
           if (err.error?.length) {
             this.toast.error(err.error[0].description);
           } else {
+            //for email validation i currently work on it if i dont forget
             this.email?.setErrors({ 'emailExists': true });
             this.toast.error('Something went wrong');
           }

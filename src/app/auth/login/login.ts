@@ -66,9 +66,9 @@ export class Login implements OnInit {
         next: (response:LoginResponse) => {
           this.toast.success('Login successful');
 
-          // Store user data if returned
+          // Store auth token if returned from API
           this.authService.setAuthToken(response.token);
-
+          //for user data (username and email in local storeage) :) or :(
           this.authService.setUserData({
             username: response.username,
             email: response.email
