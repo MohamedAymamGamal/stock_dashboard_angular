@@ -91,6 +91,9 @@ export class StocksComponent  extends ListBase implements OnInit {
   update(stockId: number): void {
     this.router.navigate(['/dashboard', 'stocks', 'update', stockId]);
   }
+  FormArr() {
+    this.router.navigate(['/dashboard', 'stocks', 'form-array']);
+  }
   // ngOnDestroy(): void {
   //   this.state$.unsubscribe();
   // }

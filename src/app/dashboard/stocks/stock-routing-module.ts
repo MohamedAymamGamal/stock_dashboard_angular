@@ -3,11 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
 
+
           {
             path: '',
             loadComponent: () =>
               import('./stocks').then(m => m.StocksComponent),
           },
+  {
+    path: 'form-array',
+    loadComponent: () =>
+      import('./form-array/form-array').then(m => m.FormArrays),
+  },
           {
             path: 'create',
             loadComponent: () =>
@@ -23,6 +29,7 @@ const routes: Routes = [
             loadComponent: () =>
               import('./stock-details/stock-details').then(m => m.StockDetails),
           },
+
 
 ];
 

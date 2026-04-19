@@ -1,4 +1,15 @@
-FROM ubuntu:latest
-LABEL authors="ma203"
+# Build stage
+FROM node:20-alpine AS build
 
-ENTRYPOINT ["top", "-b"]
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+# Production stage
+FROM httpd:alpine
+
+COPY --from=build /app/dist/stock/browser /usr/local/apache2/htdocs/

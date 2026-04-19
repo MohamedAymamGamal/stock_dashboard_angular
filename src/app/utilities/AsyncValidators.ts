@@ -2,7 +2,7 @@ import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/fo
 import { inject } from '@angular/core';
 import { of, timer } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
-import {Api} from '../../../../New folder/stock_dashboard_angular/src/app/services/api';
+import {Api} from '../services/api';
 
 
 export function AsyncValidators(): AsyncValidatorFn {

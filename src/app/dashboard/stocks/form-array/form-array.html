@@ -1,0 +1,20 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="flex items-center flex-col gap-2 m-10 justify-center">
+
+  <div formArrayName="items" class="flex flex-col gap-2">
+    @for (item of items.controls; track $index) {
+      <div [formGroupName]="$index" style="display:flex; gap:8px; margin-bottom:8px;">
+        <app-input-label formControlName="name" placeholder="Name" />
+        <app-input-label formControlName="qty" type="number" placeholder="Qty" />
+        <app-button type="button" (click)="removeItem($index)" label="Remove"></app-button>
+      </div>
+    }
+  </div>
+
+  <div class="flex items-center gap-2 items-center justify-center">
+    <app-button type="button" (click)="addItem()" label="Add"></app-button>
+    <app-button type="submit" label="Submit"></app-button>
+  </div>
+
+
+</form>
+

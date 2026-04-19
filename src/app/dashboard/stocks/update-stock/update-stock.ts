@@ -1,13 +1,13 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
-import {Api} from '../../../../../../New folder/stock_dashboard_angular/src/app/services/api';
-import {Toast} from '../../../../../../New folder/stock_dashboard_angular/src/app/services/toast';
-import {ConfirmDialogService} from '../../../../../../New folder/stock_dashboard_angular/src/app/services/confirm-dialog.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormConfig} from '../../../../../../New folder/stock_dashboard_angular/src/app/Types/FormConfig';
 import {Validators} from '@angular/forms';
-import {ReusableForm} from '../../../../../../New folder/stock_dashboard_angular/src/app/Components/reusable-form/reusable-form';
-import {Stock} from '../../../../../../New folder/stock_dashboard_angular/src/app/Types/Stock';
 import {NgIf} from '@angular/common';
+import {ReusableForm} from '../../../Components/reusable-form/reusable-form';
+import {FormConfig} from '../../../Types/FormConfig';
+import {Stock} from '../../../Types/Stock';
+import {Toast} from '../../../services/toast';
+import {Api} from '../../../services/api';
+import {ConfirmDialogService} from '../../../services/confirm-dialog.service';
 
 @Component({
   selector: 'app-update-stock',
